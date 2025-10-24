@@ -231,12 +231,45 @@ FILAMENT_NL_FILTER_AUTO_DETECT_DIRECTION=true
 FILAMENT_NL_FILTER_PRESERVE_ORIGINAL_VALUES=true
 ```
 
+## Version Management
+
+The package includes automatic version management. You can bump versions manually or automatically:
+
+### Manual Version Bumping
+
+```bash
+# Bump patch version (1.0.0 → 1.0.1)
+composer run version:patch
+
+# Bump minor version (1.0.0 → 1.1.0)
+composer run version:minor
+
+# Bump major version (1.0.0 → 2.0.0)
+composer run version:major
+
+# Show current version
+composer run version:show
+```
+
+### Automatic Version Bumping
+
+The package includes a Git pre-push hook that automatically bumps the patch version on each push to the main branch.
+
+### Quick Bump and Push
+
+```bash
+# Simple script to bump and push
+./scripts/bump-and-push.sh patch
+./scripts/bump-and-push.sh minor
+./scripts/bump-and-push.sh major
+```
+
 ## Requirements
 
 - PHP 8.1+
 - Laravel 10+
 - Filament 3+
-- OpenAI API key
+- OpenAI API key or Azure OpenAI credentials
 
 ## License
 
