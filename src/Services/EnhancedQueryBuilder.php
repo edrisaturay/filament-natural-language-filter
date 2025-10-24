@@ -100,7 +100,7 @@ class EnhancedQueryBuilder
         }
 
         // Apply standard filter
-        $this->applyStandardFilter($column, $operator, $value);
+        $this->applyStandardFilter($this->query, $column, $operator, $value);
     }
 
     /**
@@ -275,93 +275,90 @@ class EnhancedQueryBuilder
     /**
      * Apply standard filter to query
      * 
-     * @param Builder|string $queryOrColumn The query builder or column name
+     * @param Builder $query The query builder
      * @param string $column The column to filter on
      * @param string $operator The filter operator
      * @param mixed $value The filter value
      * @return void
      */
-    protected function applyStandardFilter($queryOrColumn, string $column, string $operator, mixed $value): void
+    protected function applyStandardFilter(Builder $query, string $column, string $operator, mixed $value): void
     {
-        $query = is_string($queryOrColumn) ? $this->query : $queryOrColumn;
-        $actualColumn = is_string($queryOrColumn) ? $queryOrColumn : $column;
-
         // Validate column exists
-        if (!$this->isValidColumn($actualColumn)) {
-            Log::warning("Invalid column: {$actualColumn}");
+        if (!$this->isValidColumn($column)) {
+            Log::warning("Invalid column: {$column}");
             return;
         }
 
         switch ($operator) {
             case FilterType::EQUALS->value:
-                $query->where($actualColumn, '=', $value);
+                $query->where($column, '=', $value);
                 break;
 
             case FilterType::NOT_EQUALS->value:
-                $query->where($actualColumn, '!=', $value);
+                $query->where($column, '!=', $value);
                 break;
 
             case FilterType::CONTAINS->value:
-                $query->where($actualColumn, 'LIKE', "%{$value}%");
+                $query->where($column, 'LIKE', "%{$value}%");
                 break;
 
             case FilterType::STARTS_WITH->value:
-                $query->where($actualColumn, 'LIKE', "{$value}%");
+                $query->where($column, 'LIKE', "{$value}%");
                 break;
 
             case FilterType::ENDS_WITH->value:
-                $query->where($actualColumn, 'LIKE', "%{$value}");
+                $query->where($column, 'LIKE', "%{$value}");
                 break;
 
             case FilterType::GREATER_THAN->value:
-                $query->where($actualColumn, '>', $value);
+                $query->where($column, '>', $value);
                 break;
 
             case FilterType::LESS_THAN->value:
-                $query->where($actualColumn, '<', $value);
+                $query->where($column, '<', $value);
                 break;
 
             case FilterType::BETWEEN->value:
                 if (is_array($value) && count($value) === 2) {
-                    $query->whereBetween($actualColumn, $value);
+                    $query->whereBetween($column, $value);
                 }
                 break;
 
             case FilterType::IN->value:
                 if (is_array($value)) {
-                    $query->whereIn($actualColumn, $value);
+                    $query->whereIn($column, $value);
                 }
                 break;
 
             case FilterType::NOT_IN->value:
                 if (is_array($value)) {
-                    $query->whereNotIn($actualColumn, $value);
+                    $query->whereNotIn($column, $value);
                 }
                 break;
 
             case FilterType::IS_NULL->value:
-                $query->whereNull($actualColumn);
+                $query->whereNull($column);
                 break;
 
             case FilterType::IS_NOT_NULL->value:
-                $query->whereNotNull($actualColumn);
+                $query->whereNotNull($column);
                 break;
 
             case FilterType::DATE_EQUALS->value:
-                $query->whereDate($actualColumn, '=', $value);
+                $query->whereDate($column, '=', $value);
                 break;
 
             case FilterType::DATE_BEFORE->value:
-                $query->whereDate($actualColumn, '<', $value);
+                $query->whereDate($column, '<', $value);
                 break;
 
             case FilterType::DATE_AFTER->value:
-                $query->whereDate($actualColumn, '>', $value);
+                $query->whereDate($column, '>', $value);
                 break;
 
             case FilterType::DATE_BETWEEN->value:
                 if (is_array($value) && count($value) === 2) {
-                    $query->whereBetween($actualColumn, $value);
+                    $query->whereBetween($column, $value);
                 }
                 break;
         }
