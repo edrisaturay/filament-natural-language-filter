@@ -1,5 +1,5 @@
 {
-    "name": "EdrisaTuray/filament-natural-language-filter",
+    "name": "edrisaturay/filament-natural-language-filter",
     "description": "Natural language filtering for Filament tables and forms",
     "type": "library",
     "license": "MIT",
