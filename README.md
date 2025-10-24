@@ -5,7 +5,7 @@ A simple Filament filter that converts natural language text into database queri
 ## Installation
 
 ```bash
-composer require hayderhatem/filament-natural-language-filter
+composer require edrisaturay/filament-natural-language-filter
 ```
 
 ## Configuration
