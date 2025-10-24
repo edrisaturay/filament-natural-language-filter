@@ -5,8 +5,11 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Edrisa Turay",
+            "email": "edrisa@edrisa.com"
+        }, {
             "name": "Hayder Hatem",
-            "email": "EdrisaTuray@example.com"
+            "email": "hayderhatem@example.com"
         }
     ],
     "autoload": {
