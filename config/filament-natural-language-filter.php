@@ -107,4 +107,57 @@ return [
         'channel' => env('FILAMENT_NL_FILTER_LOG_CHANNEL', 'default'),
         'level' => env('FILAMENT_NL_FILTER_LOG_LEVEL', 'info'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Advanced Features Configuration
+    |--------------------------------------------------------------------------
+    */
+    'features' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Relationship Filtering
+        |--------------------------------------------------------------------------
+        | Enable filtering across related models (e.g., "users with orders over $100")
+        */
+        'relationship_filtering' => [
+            'enabled' => env('FILAMENT_NL_FILTER_RELATIONSHIP_FILTERING', true),
+            'max_depth' => env('FILAMENT_NL_FILTER_MAX_RELATION_DEPTH', 2),
+            'allowed_relations' => env('FILAMENT_NL_FILTER_ALLOWED_RELATIONS', ''),
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Boolean Logic Support
+        |--------------------------------------------------------------------------
+        | Enable AND/OR operations in queries (e.g., "users named john OR email contains gmail")
+        */
+        'boolean_logic' => [
+            'enabled' => env('FILAMENT_NL_FILTER_BOOLEAN_LOGIC', true),
+            'max_conditions' => env('FILAMENT_NL_FILTER_MAX_CONDITIONS', 10),
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Aggregation Queries
+        |--------------------------------------------------------------------------
+        | Enable aggregation operations (count, sum, average, etc.)
+        */
+        'aggregation_queries' => [
+            'enabled' => env('FILAMENT_NL_FILTER_AGGREGATION_QUERIES', true),
+            'allowed_operations' => ['count', 'sum', 'avg', 'min', 'max'],
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Query Suggestions
+        |--------------------------------------------------------------------------
+        | Enable AI-powered query suggestions and autocomplete
+        */
+        'query_suggestions' => [
+            'enabled' => env('FILAMENT_NL_FILTER_QUERY_SUGGESTIONS', true),
+            'max_suggestions' => env('FILAMENT_NL_FILTER_MAX_SUGGESTIONS', 5),
+            'cache_suggestions' => env('FILAMENT_NL_FILTER_CACHE_SUGGESTIONS', true),
+        ],
+    ],
 ];

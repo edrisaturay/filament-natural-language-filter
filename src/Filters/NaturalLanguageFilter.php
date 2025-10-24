@@ -8,13 +8,17 @@ use Illuminate\Database\Eloquent\Builder;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Services\NaturalLanguageProcessor;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Services\ProcessorFactory;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\EnhancedQueryBuilder;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\QuerySuggestionsService;
 use Illuminate\Support\Facades\Log;
 
 class NaturalLanguageFilter extends BaseFilter
 {
     protected array $availableColumns = [];
+    protected array $availableRelations = [];
     protected array $customColumnMappings = [];
     protected ?NaturalLanguageProcessorInterface $processor = null;
+    protected ?QuerySuggestionsService $suggestionsService = null;
     protected string $searchMode = 'submit';
 
     public static function make(?string $name = 'natural_language'): static
@@ -22,9 +26,27 @@ class NaturalLanguageFilter extends BaseFilter
         return parent::make($name);
     }
 
+    /**
+     * Set available columns for filtering
+     * 
+     * @param array $columns Array of column names that can be filtered
+     * @return static
+     */
     public function availableColumns(array $columns): static
     {
         $this->availableColumns = $columns;
+        return $this;
+    }
+
+    /**
+     * Set available relationships for filtering
+     * 
+     * @param array $relations Array of relationship names that can be filtered
+     * @return static
+     */
+    public function availableRelations(array $relations): static
+    {
+        $this->availableRelations = $relations;
         return $this;
     }
 
@@ -62,6 +84,40 @@ class NaturalLanguageFilter extends BaseFilter
     public function getCustomColumnMappings(): array
     {
         return $this->customColumnMappings;
+    }
+
+    /**
+     * Get available relationships
+     * 
+     * @return array
+     */
+    public function getAvailableRelations(): array
+    {
+        return $this->availableRelations;
+    }
+
+    /**
+     * Get query suggestions for the current input
+     * 
+     * @param string $partialQuery The partial query input
+     * @return array Array of suggestion strings
+     */
+    public function getQuerySuggestions(string $partialQuery): array
+    {
+        if (!$this->suggestionsService) {
+            $processor = $this->getProcessor();
+            if (!$processor) {
+                return [];
+            }
+            
+            $this->suggestionsService = new QuerySuggestionsService(
+                $processor,
+                $this->getAvailableColumns(),
+                $this->getAvailableRelations()
+            );
+        }
+
+        return $this->suggestionsService->getSuggestions($partialQuery);
     }
 
     public function isActive(array $data = []): bool
@@ -131,6 +187,16 @@ class NaturalLanguageFilter extends BaseFilter
         return $this->processor;
     }
 
+    /**
+     * Apply the natural language filter to the query
+     * 
+     * This method processes the natural language query and applies
+     * the resulting filters to the database query builder.
+     * 
+     * @param Builder $query The database query builder
+     * @param array $data The filter data containing the natural language query
+     * @return Builder The modified query builder
+     */
     public function apply(Builder $query, array $data = []): Builder
     {
         if (empty($data['query']) || strlen(trim($data['query'])) < 3) {
@@ -150,11 +216,13 @@ class NaturalLanguageFilter extends BaseFilter
                 return $query;
             }
 
+            // Process the query with AI to get filter array
             $filters = $processor->processQuery($queryText, $this->getAvailableColumns());
 
             Log::info('NaturalLanguageFilter - AI Processing Result', [
                 'user_query' => $queryText,
                 'available_columns' => $this->getAvailableColumns(),
+                'available_relations' => $this->getAvailableRelations(),
                 'ai_filters' => $filters
             ]);
 
@@ -162,15 +230,35 @@ class NaturalLanguageFilter extends BaseFilter
                 return $query;
             }
 
+            // Use enhanced query builder for complex filtering
+            $enhancedBuilder = new EnhancedQueryBuilder(
+                $query,
+                $this->getAvailableColumns(),
+                $this->getAvailableRelations()
+            );
+
+            // Apply each filter using the enhanced builder
             foreach ($filters as $filter) {
-                if (!isset($filter['column'], $filter['operator'], $filter['value'])) {
+                if (!isset($filter['operator'])) {
                     continue;
                 }
 
-                $this->applyFilter($query, $filter);
+                try {
+                    $enhancedBuilder->applyFilter($filter);
+                } catch (\Exception $filterException) {
+                    Log::warning('Failed to apply filter: ' . $filterException->getMessage(), [
+                        'filter' => $filter
+                    ]);
+                }
             }
+
+            return $enhancedBuilder->getQuery();
         } catch (\Exception $e) {
-            Log::error('Natural Language Filter Error: ' . $e->getMessage());
+            Log::error('Natural Language Filter Error: ' . $e->getMessage(), [
+                'query' => $queryText,
+                'available_columns' => $this->getAvailableColumns(),
+                'available_relations' => $this->getAvailableRelations()
+            ]);
         }
 
         return $query;

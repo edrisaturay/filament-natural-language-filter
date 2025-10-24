@@ -54,8 +54,49 @@ public function table(Table $table): Table
                     'created_at',
                     'updated_at'
                 ])
+                ->availableRelations([
+                    'orders',
+                    'posts',
+                    'profile'
+                ])
         ]);
 }
+```
+
+### Advanced Features
+
+#### Relationship Filtering
+```php
+// Enable relationship filtering
+NaturalLanguageFilter::make()
+    ->availableColumns(['name', 'email'])
+    ->availableRelations(['orders', 'posts'])
+    // Now supports: "users with orders over $100"
+    // "posts by active users"
+    // "products in electronics category"
+```
+
+#### Boolean Logic Support
+```php
+// Enable boolean logic (AND/OR operations)
+// Supports: "users named john OR email contains gmail"
+// "active users AND created after 2023"
+// "status is pending AND (amount > 100 OR priority is high)"
+```
+
+#### Aggregation Queries
+```php
+// Enable aggregation operations
+// Supports: "top 10 users by order count"
+// "products with highest sales"
+// "users with most posts"
+```
+
+#### Query Suggestions
+```php
+// Enable AI-powered query suggestions
+// Provides autocomplete and intelligent suggestions
+// based on available columns and relationships
 ```
 
 ### Search Modes
@@ -229,6 +270,26 @@ AZURE_OPENAI_API_VERSION=2024-02-15-preview
 FILAMENT_NL_FILTER_UNIVERSAL_SUPPORT=true
 FILAMENT_NL_FILTER_AUTO_DETECT_DIRECTION=true
 FILAMENT_NL_FILTER_PRESERVE_ORIGINAL_VALUES=true
+```
+
+**Advanced Features Configuration:**
+```env
+# Relationship Filtering
+FILAMENT_NL_FILTER_RELATIONSHIP_FILTERING=true
+FILAMENT_NL_FILTER_MAX_RELATION_DEPTH=2
+FILAMENT_NL_FILTER_ALLOWED_RELATIONS=orders,posts,profile
+
+# Boolean Logic Support
+FILAMENT_NL_FILTER_BOOLEAN_LOGIC=true
+FILAMENT_NL_FILTER_MAX_CONDITIONS=10
+
+# Aggregation Queries
+FILAMENT_NL_FILTER_AGGREGATION_QUERIES=true
+
+# Query Suggestions
+FILAMENT_NL_FILTER_QUERY_SUGGESTIONS=true
+FILAMENT_NL_FILTER_MAX_SUGGESTIONS=5
+FILAMENT_NL_FILTER_CACHE_SUGGESTIONS=true
 ```
 
 ## Version Management
