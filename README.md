@@ -15,9 +15,20 @@ composer require edrisaturay/filament-natural-language-filter
 php artisan vendor:publish --tag="filament-natural-language-filter-config"
 ```
 
-2. Add your OpenAI API key to your `.env` file:
+2. Add your AI provider configuration to your `.env` file:
+
+**For OpenAI:**
 ```env
+FILAMENT_NL_FILTER_PROVIDER=openai
 OPENAI_API_KEY=your-openai-api-key-here
+```
+
+**For Azure OpenAI:**
+```env
+FILAMENT_NL_FILTER_PROVIDER=azure
+AZURE_OPENAI_API_KEY=your-azure-openai-api-key
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment-name
 ```
 
 ## Usage
@@ -146,14 +157,42 @@ The AI can handle mixed-language queries naturally:
 - "usuario con email gmail.com" ✅  
 - "姓名 contains 张三" ✅
 
+## AI Provider Support
+
+The package supports both **OpenAI** and **Azure OpenAI** services. You can choose your preferred provider:
+
+### OpenAI (Default)
+```env
+FILAMENT_NL_FILTER_PROVIDER=openai
+OPENAI_API_KEY=your-openai-api-key-here
+```
+
+### Azure OpenAI
+```env
+FILAMENT_NL_FILTER_PROVIDER=azure
+AZURE_OPENAI_API_KEY=your-azure-openai-api-key
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment-name
+AZURE_OPENAI_API_VERSION=2024-02-15-preview
+```
+
 ## Configuration Options
 
 ```php
 // config/filament-natural-language-filter.php
 return [
-    'model' => 'gpt-3.5-turbo', // OpenAI model
+    'provider' => 'openai', // 'openai' or 'azure'
+    'model' => 'gpt-3.5-turbo', // Model name
     'openai' => [
         'api_key' => env('OPENAI_API_KEY'),
+        'max_tokens' => 500,
+        'temperature' => 0.1,
+    ],
+    'azure' => [
+        'api_key' => env('AZURE_OPENAI_API_KEY'),
+        'endpoint' => env('AZURE_OPENAI_ENDPOINT'),
+        'deployment_name' => env('AZURE_OPENAI_DEPLOYMENT_NAME'),
+        'api_version' => env('AZURE_OPENAI_API_VERSION', '2024-02-15-preview'),
         'max_tokens' => 500,
         'temperature' => 0.1,
     ],
@@ -171,8 +210,22 @@ return [
 
 ### Environment Variables
 
+**For OpenAI:**
 ```env
+FILAMENT_NL_FILTER_PROVIDER=openai
 OPENAI_API_KEY=your-openai-api-key-here
+FILAMENT_NL_FILTER_UNIVERSAL_SUPPORT=true
+FILAMENT_NL_FILTER_AUTO_DETECT_DIRECTION=true
+FILAMENT_NL_FILTER_PRESERVE_ORIGINAL_VALUES=true
+```
+
+**For Azure OpenAI:**
+```env
+FILAMENT_NL_FILTER_PROVIDER=azure
+AZURE_OPENAI_API_KEY=your-azure-openai-api-key
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment-name
+AZURE_OPENAI_API_VERSION=2024-02-15-preview
 FILAMENT_NL_FILTER_UNIVERSAL_SUPPORT=true
 FILAMENT_NL_FILTER_AUTO_DETECT_DIRECTION=true
 FILAMENT_NL_FILTER_PRESERVE_ORIGINAL_VALUES=true

@@ -4,6 +4,8 @@ namespace EdrisaTuray\FilamentNaturalLanguageFilter;
 
 use Illuminate\Support\ServiceProvider;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Services\NaturalLanguageProcessor;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\AzureOpenAIProcessor;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\ProcessorFactory;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
 
 class FilamentNaturalLanguageFilterServiceProvider extends ServiceProvider
@@ -17,7 +19,9 @@ class FilamentNaturalLanguageFilterServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             NaturalLanguageProcessorInterface::class,
-            NaturalLanguageProcessor::class
+            function ($app) {
+                return ProcessorFactory::create();
+            }
         );
     }
 

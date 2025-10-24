@@ -7,6 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Services\NaturalLanguageProcessor;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\ProcessorFactory;
 use Illuminate\Support\Facades\Log;
 
 class NaturalLanguageFilter extends BaseFilter
@@ -119,7 +120,8 @@ class NaturalLanguageFilter extends BaseFilter
             } catch (\Exception $e) {
                 Log::error('Failed to resolve NaturalLanguageProcessorInterface: ' . $e->getMessage());
                 try {
-                    $this->processor = new NaturalLanguageProcessor();
+                    // Fallback to factory with default provider
+                    $this->processor = ProcessorFactory::create();
                 } catch (\Exception $fallbackException) {
                     Log::error('Failed to create fallback processor: ' . $fallbackException->getMessage());
                     $this->processor = null;

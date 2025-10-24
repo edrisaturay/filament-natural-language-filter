@@ -3,7 +3,14 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | OpenAI Model Configuration
+    | AI Provider Configuration
+    |--------------------------------------------------------------------------
+    */
+    'provider' => env('FILAMENT_NL_FILTER_PROVIDER', 'openai'), // 'openai' or 'azure'
+
+    /*
+    |--------------------------------------------------------------------------
+    | Model Configuration
     |--------------------------------------------------------------------------
     */
     'model' => env('FILAMENT_NL_FILTER_MODEL', 'gpt-3.5-turbo'),
@@ -16,6 +23,20 @@ return [
     'openai' => [
         'api_key' => env('OPENAI_API_KEY'),
         'organization' => env('OPENAI_ORGANIZATION'),
+        'max_tokens' => env('FILAMENT_NL_FILTER_MAX_TOKENS', 500),
+        'temperature' => env('FILAMENT_NL_FILTER_TEMPERATURE', 0.1),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Azure OpenAI API Configuration  
+    |--------------------------------------------------------------------------
+    */
+    'azure' => [
+        'api_key' => env('AZURE_OPENAI_API_KEY'),
+        'endpoint' => env('AZURE_OPENAI_ENDPOINT'),
+        'api_version' => env('AZURE_OPENAI_API_VERSION', '2024-02-15-preview'),
+        'deployment_name' => env('AZURE_OPENAI_DEPLOYMENT_NAME'),
         'max_tokens' => env('FILAMENT_NL_FILTER_MAX_TOKENS', 500),
         'temperature' => env('FILAMENT_NL_FILTER_TEMPERATURE', 0.1),
     ],
