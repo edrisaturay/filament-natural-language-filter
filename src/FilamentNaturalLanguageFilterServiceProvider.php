@@ -1,10 +1,10 @@
 <?php
 
-namespace HayderHatem\FilamentNaturalLanguageFilter;
+namespace EdrisaTuray\FilamentNaturalLanguageFilter;
 
 use Illuminate\Support\ServiceProvider;
-use HayderHatem\FilamentNaturalLanguageFilter\Services\NaturalLanguageProcessor;
-use HayderHatem\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\NaturalLanguageProcessor;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
 
 class FilamentNaturalLanguageFilterServiceProvider extends ServiceProvider
 {

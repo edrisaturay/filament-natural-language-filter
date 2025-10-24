@@ -1,8 +1,8 @@
 <?php
 
-namespace HayderHatem\FilamentNaturalLanguageFilter\Services;
+namespace EdrisaTuray\FilamentNaturalLanguageFilter\Services;
 
-use HayderHatem\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 

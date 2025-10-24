@@ -1,12 +1,12 @@
 <?php
 
-namespace HayderHatem\FilamentNaturalLanguageFilter\Filters;
+namespace EdrisaTuray\FilamentNaturalLanguageFilter\Filters;
 
 use Filament\Tables\Filters\BaseFilter;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use HayderHatem\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
-use HayderHatem\FilamentNaturalLanguageFilter\Services\NaturalLanguageProcessor;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\NaturalLanguageProcessor;
 use Illuminate\Support\Facades\Log;
 
 class NaturalLanguageFilter extends BaseFilter

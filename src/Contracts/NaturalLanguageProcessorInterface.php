@@ -1,6 +1,6 @@
 <?php
 
-namespace HayderHatem\FilamentNaturalLanguageFilter\Contracts;
+namespace EdrisaTuray\FilamentNaturalLanguageFilter\Contracts;
 
 interface NaturalLanguageProcessorInterface
 {

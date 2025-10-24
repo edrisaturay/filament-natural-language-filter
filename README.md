@@ -25,7 +25,7 @@ OPENAI_API_KEY=your-openai-api-key-here
 Add the filter to your Filament table:
 
 ```php
-use HayderHatem\FilamentNaturalLanguageFilter\Filters\NaturalLanguageFilter;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Filters\NaturalLanguageFilter;
 
 public function table(Table $table): Table
 {

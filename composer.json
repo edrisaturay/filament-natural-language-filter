@@ -1,22 +1,22 @@
 {
-    "name": "hayderhatem/filament-natural-language-filter",
+    "name": "EdrisaTuray/filament-natural-language-filter",
     "description": "Natural language filtering for Filament tables and forms",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Hayder Hatem",
-            "email": "hayderhatem@example.com"
+            "email": "EdrisaTuray@example.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "HayderHatem\\FilamentNaturalLanguageFilter\\": "src/"
+            "EdrisaTuray\\FilamentNaturalLanguageFilter\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "HayderHatem\\FilamentNaturalLanguageFilter\\Tests\\": "tests/"
+            "EdrisaTuray\\FilamentNaturalLanguageFilter\\Tests\\": "tests/"
         }
     },
     "require": {
@@ -44,7 +44,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "HayderHatem\\FilamentNaturalLanguageFilter\\FilamentNaturalLanguageFilterServiceProvider"
+                "EdrisaTuray\\FilamentNaturalLanguageFilter\\FilamentNaturalLanguageFilterServiceProvider"
             ]
         }
     },
