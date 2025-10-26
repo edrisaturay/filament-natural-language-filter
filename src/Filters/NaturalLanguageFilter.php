@@ -152,8 +152,9 @@ class NaturalLanguageFilter extends BaseFilter
 
             $textInput
                 ->live()
-                ->afterStateUpdated(function () {
+                ->afterStateUpdated(function ($state) {
                     // Trigger filter update immediately when state changes
+                    $this->getTable()?->resetPage();
                 })
                 ->debounce(800)
                 ->helperText($helperText);
