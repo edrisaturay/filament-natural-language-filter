@@ -163,7 +163,9 @@ class NaturalLanguageFilter extends BaseFilter
                 ? 'Enter your query in any language and press Enter | أدخل استعلامك بأي لغة واضغط Enter | ingrese su consulta en cualquier idioma y presione Enter'
                 : 'Enter your query in natural language and press Enter to apply';
 
-            $textInput->helperText($helperText);
+            $textInput
+                ->live(false) // Explicitly disable live mode for submit
+                ->helperText($helperText);
         }
 
         $this->form([$textInput]);
