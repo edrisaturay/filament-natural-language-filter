@@ -5,6 +5,9 @@ namespace EdrisaTuray\FilamentNaturalLanguageFilter;
 use Illuminate\Support\ServiceProvider;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Services\NaturalLanguageProcessor;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Services\AzureOpenAIProcessor;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\OllamaProcessor;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\LMStudioProcessor;
+use EdrisaTuray\FilamentNaturalLanguageFilter\Services\CustomProcessor;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Services\ProcessorFactory;
 use EdrisaTuray\FilamentNaturalLanguageFilter\Contracts\NaturalLanguageProcessorInterface;
 
@@ -23,6 +26,13 @@ class FilamentNaturalLanguageFilterServiceProvider extends ServiceProvider
                 return ProcessorFactory::create();
             }
         );
+
+        // Individual processor bindings for direct injection
+        $this->app->singleton(AzureOpenAIProcessor::class);
+        $this->app->singleton(OllamaProcessor::class);
+        $this->app->singleton(LMStudioProcessor::class);
+        $this->app->singleton(CustomProcessor::class);
+        $this->app->singleton(NaturalLanguageProcessor::class);
     }
 
     public function boot(): void

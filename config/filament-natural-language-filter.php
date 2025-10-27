@@ -6,7 +6,7 @@ return [
     | AI Provider Configuration
     |--------------------------------------------------------------------------
     */
-    'provider' => env('FILAMENT_NL_FILTER_PROVIDER', 'openai'), // 'openai' or 'azure'
+    'provider' => env('FILAMENT_NL_FILTER_PROVIDER', 'openai'), // 'openai', 'azure', 'ollama', 'lmstudio', 'custom'
 
     /*
     |--------------------------------------------------------------------------
@@ -39,6 +39,52 @@ return [
         'deployment_name' => env('AZURE_OPENAI_DEPLOYMENT_NAME'),
         'max_tokens' => env('FILAMENT_NL_FILTER_MAX_TOKENS', 500),
         'temperature' => env('FILAMENT_NL_FILTER_TEMPERATURE', 0.1),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ollama Configuration
+    |--------------------------------------------------------------------------
+    */
+    'ollama' => [
+        'host' => env('OLLAMA_HOST', 'http://localhost:11434'),
+        'model' => env('OLLAMA_MODEL', 'llama2'),
+        'max_tokens' => env('FILAMENT_NL_FILTER_MAX_TOKENS', 500),
+        'temperature' => env('FILAMENT_NL_FILTER_TEMPERATURE', 0.1),
+        'timeout' => env('OLLAMA_TIMEOUT', 30),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | LM Studio Configuration
+    |--------------------------------------------------------------------------
+    */
+    'lmstudio' => [
+        'host' => env('LMSTUDIO_HOST', 'http://localhost:1234'),
+        'model' => env('LMSTUDIO_MODEL', 'local-model'),
+        'api_key' => env('LMSTUDIO_API_KEY'), // Optional
+        'max_tokens' => env('FILAMENT_NL_FILTER_MAX_TOKENS', 500),
+        'temperature' => env('FILAMENT_NL_FILTER_TEMPERATURE', 0.1),
+        'timeout' => env('LMSTUDIO_TIMEOUT', 30),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom AI Provider Configuration
+    |--------------------------------------------------------------------------
+    */
+    'custom' => [
+        'endpoint' => env('CUSTOM_AI_ENDPOINT'),
+        'model' => env('CUSTOM_AI_MODEL'),
+        'api_key' => env('CUSTOM_AI_API_KEY'), // Optional
+        'api_format' => env('CUSTOM_AI_FORMAT', 'openai'), // 'openai', 'anthropic', 'custom'
+        'auth_header' => env('CUSTOM_AI_AUTH_HEADER', 'Authorization'),
+        'auth_prefix' => env('CUSTOM_AI_AUTH_PREFIX', 'Bearer '),
+        'request_format' => [], // Custom request format for 'custom' api_format
+        'response_path' => env('CUSTOM_AI_RESPONSE_PATH', 'choices.0.message.content'),
+        'max_tokens' => env('FILAMENT_NL_FILTER_MAX_TOKENS', 500),
+        'temperature' => env('FILAMENT_NL_FILTER_TEMPERATURE', 0.1),
+        'timeout' => env('CUSTOM_AI_TIMEOUT', 30),
     ],
 
     /*

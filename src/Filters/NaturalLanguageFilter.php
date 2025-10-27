@@ -76,6 +76,11 @@ class NaturalLanguageFilter extends BaseFilter
         return $this->searchMode('submit');
     }
 
+    public function getSearchMode(): string
+    {
+        return $this->searchMode;
+    }
+
     public function getAvailableColumns(): array
     {
         return $this->availableColumns;
